@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package DAO;
 
-import model.Member;
+import Model.Member;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -48,7 +48,7 @@ public class MemberDAO {
     }
     
     public void insert(Member m){
-        String sql = "INSERT INTO Member(noMember, nama, noTelp, jmlBeli) VALUES('"+m.getNoMember()+"', '"+m.getNama()+"', '"+m.getNoTelp()+"', '"+m.getJmlBeli()+"')";
+        String sql = "INSERT INTO Member(nama, noTelp, jmlBeli) VALUES('"+m.getNama()+"', '"+m.getNoTelp()+"', '"+m.getJmlBeli()+"')";
         
         System.out.println("Adding Member...");
         System.out.println(sql);
