@@ -6,6 +6,7 @@
 package DAO;
 
 import Model.Member;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,7 +22,7 @@ public class MemberDAO {
     
     public static Connection CON;
     public static final String url = "jdbc:ucanaccess://";
-    public static final String path = "D:\\Belajar KSP Java\\7 Materi 7 - Java - Object Persistance 1\\GuidedOP_0088";
+    public static final String path = "D:\\Belajar KSP Java\\7 Materi 7 - Java - Object Persistance 1\\GuidedOP_0088\\"+File.separator+"gdOP.accdb";
     
     public void makeConnection(){
         System.out.println("Opening Database...");
@@ -30,8 +31,7 @@ public class MemberDAO {
             CON = DriverManager.getConnection(url+path);
             System.out.println("Success !");
         } catch(Exception e){
-            System.out.println("Error Opening Database...");;
-            System.out.println(e);
+            System.out.println("Error Opening Database..."+e);
         }
     }
     
@@ -42,8 +42,7 @@ public class MemberDAO {
             CON.close();
             System.out.println("Success !");
         } catch (Exception e) {
-            System.out.println("Error Closing Database...");
-            System.out.println(e);
+            System.out.println("Error Closing Database..."+e);
         }
     }
     
@@ -92,8 +91,8 @@ public class MemberDAO {
         return list;
     }
     
-    public Member searchData(String noMember){
-        String sql = "SELECT * FROM Member WHERE noMember = '"+noMember+"'";
+    public Member searchData(String key){
+        String sql = "SELECT * FROM Member WHERE (noMember LIKE '%"+key+"%') OR (nama LIKE '%"+key+"%') OR (noTelp LIKE '%"+key+"%') OR (jmlBeli LIKE '%"+key+"%')";
         System.out.println("Searching Data Member...");
         
         Member m = null;

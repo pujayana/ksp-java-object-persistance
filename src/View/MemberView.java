@@ -5,6 +5,13 @@
  */
 package View;
 
+import Model.Member;
+import Controller.MemberController;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author pujayana
@@ -14,8 +21,52 @@ public class MemberView extends javax.swing.JFrame {
     /**
      * Creates new form MemberView
      */
+    
+    private MemberController memberController;
+    String noMember;
+    
     public MemberView() {
         initComponents();
+        this.setResizable(false);
+        setKomponen(false);
+        memberController = new MemberController();
+        loadData();
+    }
+    
+    private void clearForm(){
+        TxtNama.setText("");
+        TxtJumlahBeli.setText("");
+        TxtNoTelp.setText("");
+        TxtNoMemberCari.setText("");
+    }
+    
+    private void setKomponen(Boolean x){
+        BtnInsert.setEnabled(!x);
+        BtnDelete.setEnabled(x);
+        BtnUpdate.setEnabled(x);
+    }
+    
+    private void loadData(){
+        List<Member> listMember = new ArrayList<>();
+        listMember = memberController.showMember();
+        
+        DefaultTableModel dtmMember = (DefaultTableModel)TblMember.getModel();
+        
+        while(dtmMember.getRowCount() > 0){
+            dtmMember.removeRow(dtmMember.getRowCount()-1);
+        }
+        
+        Object[] row = new Object[dtmMember.getColumnCount()];
+        
+        for(int i=0; i<listMember.size(); i++){
+            row[0] = listMember.get(i).getNoMember();
+            row[1] = listMember.get(i).getNama();
+            row[2] = listMember.get(i).getNoTelp();
+            row[3] = listMember.get(i).getJmlBeli();
+            row[4] = listMember.get(i).hitungTotal();
+            
+            dtmMember.addRow(row);
+        }
     }
 
     /**
@@ -27,21 +78,360 @@ public class MemberView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PanelMember = new javax.swing.JPanel();
+        LblHeader = new javax.swing.JLabel();
+        BtnDelete = new javax.swing.JButton();
+        BtnCancel = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TblMember = new javax.swing.JTable();
+        LblNama = new javax.swing.JLabel();
+        LblNoTelp = new javax.swing.JLabel();
+        LblJumlahBeli = new javax.swing.JLabel();
+        TxtNama = new javax.swing.JTextField();
+        TxtNoTelp = new javax.swing.JTextField();
+        TxtJumlahBeli = new javax.swing.JTextField();
+        BtnInsert = new javax.swing.JButton();
+        BtnUpdate = new javax.swing.JButton();
+        TxtNoMemberCari = new javax.swing.JTextField();
+        LblPencarian = new javax.swing.JLabel();
+        BtnCari = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        LblHeader.setFont(new java.awt.Font("PizzaHut Font", 1, 24)); // NOI18N
+        LblHeader.setText("TOKO PIANO");
+
+        BtnDelete.setText("Delete");
+        BtnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnDeleteMouseClicked(evt);
+            }
+        });
+        BtnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDeleteActionPerformed(evt);
+            }
+        });
+
+        BtnCancel.setText("Cancel");
+        BtnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnCancelMouseClicked(evt);
+            }
+        });
+        BtnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelActionPerformed(evt);
+            }
+        });
+
+        TblMember.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "No Member", "Nama", "No Telp", "Jumlah Beli", "Total"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TblMember.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblMemberMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TblMember);
+        if (TblMember.getColumnModel().getColumnCount() > 0) {
+            TblMember.getColumnModel().getColumn(0).setResizable(false);
+            TblMember.getColumnModel().getColumn(1).setResizable(false);
+            TblMember.getColumnModel().getColumn(2).setResizable(false);
+            TblMember.getColumnModel().getColumn(3).setResizable(false);
+            TblMember.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        LblNama.setText("Nama");
+
+        LblNoTelp.setText("No Telp");
+
+        LblJumlahBeli.setText("Jumlah Beli");
+
+        TxtNama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtNamaActionPerformed(evt);
+            }
+        });
+
+        TxtNoTelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtNoTelpActionPerformed(evt);
+            }
+        });
+
+        BtnInsert.setText("Insert");
+        BtnInsert.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnInsertMouseClicked(evt);
+            }
+        });
+        BtnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnInsertActionPerformed(evt);
+            }
+        });
+
+        BtnUpdate.setText("Update");
+        BtnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnUpdateMouseClicked(evt);
+            }
+        });
+        BtnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnUpdateActionPerformed(evt);
+            }
+        });
+
+        LblPencarian.setText("Pencarian");
+
+        BtnCari.setText("Cari");
+        BtnCari.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnCariMouseClicked(evt);
+            }
+        });
+        BtnCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCariActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelMemberLayout = new javax.swing.GroupLayout(PanelMember);
+        PanelMember.setLayout(PanelMemberLayout);
+        PanelMemberLayout.setHorizontalGroup(
+            PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMemberLayout.createSequentialGroup()
+                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelMemberLayout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelMemberLayout.createSequentialGroup()
+                                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(LblNoTelp)
+                                    .addComponent(LblJumlahBeli)
+                                    .addComponent(LblNama))
+                                .addGap(35, 35, 35)
+                                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(TxtJumlahBeli, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(TxtNama)
+                                    .addComponent(TxtNoTelp, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelMemberLayout.createSequentialGroup()
+                                .addComponent(LblPencarian)
+                                .addGap(46, 46, 46)
+                                .addComponent(TxtNoMemberCari)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BtnCari))))
+                    .addGroup(PanelMemberLayout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(LblHeader)))
+                .addContainerGap(93, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelMemberLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelMemberLayout.createSequentialGroup()
+                        .addComponent(BtnInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnDelete))
+                    .addComponent(BtnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(144, 144, 144))
+        );
+        PanelMemberLayout.setVerticalGroup(
+            PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMemberLayout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addComponent(LblHeader)
+                .addGap(46, 46, 46)
+                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LblNama))
+                .addGap(18, 18, 18)
+                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtNoTelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LblNoTelp))
+                .addGap(18, 18, 18)
+                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtJumlahBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LblJumlahBeli))
+                .addGap(49, 49, 49)
+                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnInsert)
+                    .addComponent(BtnUpdate)
+                    .addComponent(BtnDelete))
+                .addGap(18, 18, 18)
+                .addComponent(BtnCancel)
+                .addGap(42, 42, 42)
+                .addGroup(PanelMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtNoMemberCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LblPencarian)
+                    .addComponent(BtnCari))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PanelMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PanelMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(56, 56, 56))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void TxtNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtNamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtNamaActionPerformed
+
+    private void TxtNoTelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtNoTelpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtNoTelpActionPerformed
+
+    private void BtnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnInsertActionPerformed
+// TODO add your handling code here:
+    }//GEN-LAST:event_BtnInsertActionPerformed
+
+    private void BtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnUpdateActionPerformed
+
+    private void BtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnDeleteActionPerformed
+
+    private void BtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnCancelActionPerformed
+
+    private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnCariActionPerformed
+
+    private void BtnInsertMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnInsertMouseClicked
+        // TODO add your handling code here:
+        try {
+            if(TxtNama.getText().equalsIgnoreCase("") || TxtJumlahBeli.getText().equalsIgnoreCase("") || TxtNoTelp.getText().equalsIgnoreCase("")){
+                JOptionPane.showMessageDialog(null, "Field tidak boleh kosong !");
+            } else {
+                Member m = new Member("null", TxtNama.getText().trim(), TxtNoTelp.getText().trim(), Integer.parseInt(TxtJumlahBeli.getText().trim()));
+                
+                memberController.insertMember(m);
+                loadData();
+                clearForm();
+            }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Field tidak boleh kosong !");
+        }
+    }//GEN-LAST:event_BtnInsertMouseClicked
+
+    private void BtnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnUpdateMouseClicked
+        // TODO add your handling code here:
+        try {
+            if(TxtNama.getText().equalsIgnoreCase("") || TxtJumlahBeli.getText().equalsIgnoreCase("") || TxtNoTelp.getText().equalsIgnoreCase("")){
+                JOptionPane.showMessageDialog(null, "Field tidak boleh kosong !");
+            } else {
+                Member m = new Member("null", TxtNama.getText().trim(), TxtNoTelp.getText().trim(), Integer.parseInt(TxtJumlahBeli.getText().trim()));
+                
+                memberController.updateMember(m, noMember);
+                loadData();
+                clearForm();
+                setKomponen(false);
+            }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Field tidak boleh kosong !");
+        }
+    }//GEN-LAST:event_BtnUpdateMouseClicked
+
+    private void BtnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnDeleteMouseClicked
+        // TODO add your handling code here:
+        try {
+            int konfirmHapus = JOptionPane.showConfirmDialog(null, "Apakah yakin ingin menghapus data?", "DANGER", JOptionPane.YES_NO_OPTION);
+            
+            if(konfirmHapus == JOptionPane.YES_OPTION){
+                memberController.deleteMember(noMember);
+                loadData();
+                clearForm();
+                setKomponen(false);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error : "+e);
+        }
+    }//GEN-LAST:event_BtnDeleteMouseClicked
+
+    private void BtnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnCancelMouseClicked
+        // TODO add your handling code here:
+        clearForm();
+        setKomponen(false);
+        loadData();
+    }//GEN-LAST:event_BtnCancelMouseClicked
+
+    private void BtnCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnCariMouseClicked
+        // TODO add your handling code here:
+        String cari = TxtNoMemberCari.getText().toString().trim();
+        Member m = memberController.findMember(cari);
+        DefaultTableModel dtmMember = (DefaultTableModel)TblMember.getModel();
+        
+        while(dtmMember.getRowCount() > 0){
+            dtmMember.removeRow(dtmMember.getRowCount()-1);
+        }
+        
+        Object[] row = new Object[dtmMember.getColumnCount()];
+        
+        row[0] = m.getNoMember();
+        row[1] = m.getNama();
+        row[2] = m.getNoTelp();
+        row[3] = m.getJmlBeli();
+        row[4] = m.hitungTotal();
+        
+        dtmMember.addRow(row);
+    }//GEN-LAST:event_BtnCariMouseClicked
+
+    private void TblMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblMemberMouseClicked
+        // TODO add your handling code here:
+        try {
+            int row = TblMember.getSelectedRow();
+            
+            noMember = TblMember.getValueAt(row, 0).toString();
+            TxtNama.setText(TblMember.getValueAt(row, 1).toString());
+            TxtNoTelp.setText(TblMember.getValueAt(row, 2).toString());
+            TxtJumlahBeli.setText(TblMember.getValueAt(row, 3).toString());
+            
+            setKomponen(true);
+        } catch (Exception e) {
+            System.out.println("Error Tabel click !"+e);
+        }
+    }//GEN-LAST:event_TblMemberMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +469,22 @@ public class MemberView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnCancel;
+    private javax.swing.JButton BtnCari;
+    private javax.swing.JButton BtnDelete;
+    private javax.swing.JButton BtnInsert;
+    private javax.swing.JButton BtnUpdate;
+    private javax.swing.JLabel LblHeader;
+    private javax.swing.JLabel LblJumlahBeli;
+    private javax.swing.JLabel LblNama;
+    private javax.swing.JLabel LblNoTelp;
+    private javax.swing.JLabel LblPencarian;
+    private javax.swing.JPanel PanelMember;
+    private javax.swing.JTable TblMember;
+    private javax.swing.JTextField TxtJumlahBeli;
+    private javax.swing.JTextField TxtNama;
+    private javax.swing.JTextField TxtNoMemberCari;
+    private javax.swing.JTextField TxtNoTelp;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

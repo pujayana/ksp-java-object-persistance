@@ -39,10 +39,10 @@ public class MemberController {
         mDAO.closeConnection();
     }
     
-    public Member findMember(String noMember){
+    public Member findMember(String key){
         Member m;
         mDAO.makeConnection();
-        m = mDAO.searchData(noMember);
+        m = mDAO.searchData(key);
         mDAO.closeConnection();
         return m;
     }
